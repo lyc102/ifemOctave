@@ -11,7 +11,7 @@ function [elem2face,face,elem2faceSign] = dof3face(elem)
 % DOF3FACE is used for elements using dof associated to faces like CR and
 % WG elements in 3-D. For elements with orientation such as RT and BDM
 % elements, when we use ascend ordering system, no elem2facSign is needed;
-% see sc3doc for details. 
+% see sc3doc for details.
 %
 %  See also dofedge, dof3edge
 %
@@ -20,6 +20,6 @@ function [elem2face,face,elem2faceSign] = dof3face(elem)
 NT = size(elem,1);
 totalFace = int32([elem(:,[2 3 4]); elem(:,[1 4 3]); ...
                    elem(:,[1 2 4]); elem(:,[1 3 2])]); % induced ordering
-[face, tempvar, j] = myunique(sort(totalFace,2));               
+[face, tempvar, j] = unique(sort(totalFace,2));
 elem2face = uint32(reshape(j,NT,4));
 elem2faceSign = int8(reshape(sum(sign(diff(totalFace(:,[1:3,1]),1,2)),2),NT,4));      

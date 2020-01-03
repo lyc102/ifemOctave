@@ -36,7 +36,7 @@ end
 
 %% Construct data structure
 totalEdge = uint32(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
-[edge, i2, j] = myunique(totalEdge); %#ok<*ASGLU>
+[edge, i2, j] = unique(totalEdge); %#ok<*ASGLU>
 N = size(node,1); NT = size(elem,1); NE = size(edge,1);
 elem2edge = uint32(reshape(j,NT,3));
 

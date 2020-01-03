@@ -1,5 +1,5 @@
 function [node,elem,bdFlag,HB,tree] = uniformbisect(node,elem,bdFlag)
-%% UNIFORMBISECT uniformly bisect a 2-D triangulation. 
+%% UNIFORMBISECT uniformly bisect a 2-D triangulation.
 %
 % [node,elem] = UNIFORMBISECT(node,elem) divides each triangle into 4 small
 % triangles using newest vertex bisection. Note that dividing only into 2
@@ -12,10 +12,10 @@ function [node,elem,bdFlag,HB,tree] = uniformbisect(node,elem,bdFlag)
 % arrays.
 %
 % - HB(:,1:3) is a hierarchical basis structure for nodes, where
-%   HB(:,1) is the global index of new added nodes, and HB(:,2:3) the 
+%   HB(:,1) is the global index of new added nodes, and HB(:,2:3) the
 %   global indices of two parent nodes of new added nodes. HB is usful
 %   for the interpolation between two grids; see also nodeinterpolate.
-% 
+%
 % - tree(:,1:3) stores the binary tree of the coarsening. tree(:,1) is the
 %   index of parent element in coarsened mesh and tree(:,2:3) are two
 %   children indices in original mesh. tree is useful for the interpolation
@@ -40,13 +40,13 @@ if ~exist('bdFlag','var'), bdFlag = []; end
 
 %% Construct data structure
 totalEdge = uint32(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
-[edge, i2, j] = myunique(totalEdge); %#ok<*ASGLU>
+[edge, i2, j] = unique(totalEdge); %#ok<*ASGLU>
 N = size(node,1); NT = size(elem,1); NE = size(edge,1);
 elem2edge = uint32(reshape(j,NT,3));
 
 %% Add new nodes: middle points of all edges
 node(N+1:N+NE,:) = (node(edge(:,1),:)+node(edge(:,2),:))/2;
-HB(:,[1 2 3]) = [(N+1:N+NE)', edge(:,1:2)]; 
+HB(:,[1 2 3]) = [(N+1:N+NE)', edge(:,1:2)];
 edge2newNode = uint32((N+1:N+NE)');
 
 %% Bisect each triangle into four triangles
@@ -66,11 +66,11 @@ for k = 1:2 % bisect twice
     elem(NT+1:NT+NT,:) = [p4, p3, p1];
     if ~isempty(bdFlag)
     	bdFlag(NT+1:NT+NT,[1 3]) = bdFlag(t,[2 1]);
-   		bdFlag(t,[1 2]) = bdFlag(t,[3 1]); 
+   		bdFlag(t,[1 2]) = bdFlag(t,[3 1]);
         bdFlag(t,3) = 0;
     else
         bdFlag = [];
-    end   
+    end
     tree(Nb+1:Nb+NT,1) = t;
     tree(Nb+1:Nb+NT,2) = t;
     tree(Nb+1:Nb+NT,3) = NT+t;

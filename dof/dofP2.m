@@ -9,24 +9,24 @@ function [elem2dof,edge,bdDof] = dofP2(elem)
 %  three edges. The i-th edge is opposited to the i-th vertex.
 %
 %  See also dof3P2.
-% 
+%
 %  Documentation: <a href="matlab:ifem PoissonP2femrate">Quadratic Element
 %  for Poisson Equation in 2D</a>
 %
-% Copyright (C) Long Chen. See COPYRIGHT.txt for details. 
+% Copyright (C) Long Chen. See COPYRIGHT.txt for details.
 
 totalEdge = uint32(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
-[edge, i2, j] = myunique(totalEdge);
-N = max(elem(:)); 
+[edge, i2, j] = unique(totalEdge);
+N = max(elem(:));
 NT = size(elem,1);
 NE = size(edge,1);
 elem2edge = reshape(j,NT,3);
 elem2dof = uint32([elem N+elem2edge]);
-i1(j(3*NT:-1:1)) = 3*NT:-1:1; 
+i1(j(3*NT:-1:1)) = 3*NT:-1:1;
 i1 = i1';
 bdEdgeIdx = (i1 == i2);
 isBdDof = false(N+2*NE,1);
-isBdDof(edge(bdEdgeIdx,:)) = true;   % nodal 
+isBdDof(edge(bdEdgeIdx,:)) = true;   % nodal
 idx = find(bdEdgeIdx);
 isBdDof(N+idx) = true;
 bdDof = find(isBdDof);

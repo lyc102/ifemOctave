@@ -1,7 +1,7 @@
 function [bdNode,bdFace,isBdNode] = findpolyboundary(face)
 
 NF = size(face, 1);
-[uface, i2, j] = myunique(sort(face, 2)); %#ok<*ASGLU>
+[uface, i2, j] = unique(sort(face, 2)); %#ok<*ASGLU>
 i1(j(NF:-1:1)) = NF:-1:1;
 i1 = i1';
 bdFace = face(i1(i1 == i2), :);

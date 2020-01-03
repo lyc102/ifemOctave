@@ -17,13 +17,13 @@ function [elem2edge,edge,elem2edgeSign] = dof3edge(elem)
 %
 % Doc: <a href="matlab:ifem dof3edgedoc">dof3edgedoc</a>
 %
-% Copyright (C) Long Chen. See COPYRIGHT.txt for details. 
+% Copyright (C) Long Chen. See COPYRIGHT.txt for details.
 
 NT = size(elem,1);
 totalEdge = int32([elem(:,[1 2]); elem(:,[1 3]); elem(:,[1 4]); ...
                    elem(:,[2 3]); elem(:,[2 4]); elem(:,[3 4])]);
 sortedTotalEdge = sort(totalEdge,2);
-[edge,i2,j] = myunique(sortedTotalEdge); %#ok<*ASGLU>
+[edge,i2,j] = unique(sortedTotalEdge); %#ok<*ASGLU>
 elem2edge = uint32(reshape(j,NT,6));
 direction = ones(6*NT,1);
 idx = (totalEdge(:,1)>totalEdge(:,2));

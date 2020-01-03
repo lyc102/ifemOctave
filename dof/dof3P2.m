@@ -10,13 +10,13 @@ function [elem2dof,edge] = dof3P2(elem)
 %
 % See also dofP2.
 %
-% Copyright (C) Long Chen. See COPYRIGHT.txt for details. 
+% Copyright (C) Long Chen. See COPYRIGHT.txt for details.
 
-N = max(elem(:)); 
+N = max(elem(:));
 NT = size(elem,1);
 totalEdge = uint32([elem(:,[1 2]); elem(:,[1 3]); elem(:,[1 4]); ...
                     elem(:,[2 3]); elem(:,[2 4]); elem(:,[3 4])]);
 totalEdge = sort(totalEdge,2);
-[edge,i2,j] = myunique(totalEdge);
+[edge,i2,j] = unique(totalEdge);
 elem2edge = reshape(j,NT,6);
 elem2dof = uint32([elem N+elem2edge]);

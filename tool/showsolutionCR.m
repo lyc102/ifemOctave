@@ -3,7 +3,7 @@ function showsolutionCR(node,elem,u,varargin)
 %
 %     f = inline('sin(2*pi*x(:,1)).*cos(2*pi*x(:,2))');
 %     [node, elem] = squaremesh([0,1,0,1],1/2^4);
-%     edge = myunique(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
+%     edge = unique(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
 %     u = Lagrangeinterpolate(f,node,elem,'CR',edge);
 %     subplot(1,2,1);
 %     showsolutionCR(node,elem,u);
@@ -11,8 +11,8 @@ function showsolutionCR(node,elem,u,varargin)
 %     showsolution(node,elem,u,'EdgeColor','k');
 %
 %  See also showsolution
-% 
-% Copyright (C) Long Chen. See COPYRIGHT.txt for details. 
+%
+% Copyright (C) Long Chen. See COPYRIGHT.txt for details.
 
 NT = size(elem,1);
 %% Generate a big triangulation

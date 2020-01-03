@@ -9,12 +9,12 @@ function [bdNode,bdFace,isBdNode] = findboundary3(elem,bdFlag)
 %
 % [bdNode,bdFace,isBdNode] = findboundary3(elem,bdFlag) finds Dirichlet
 % boundary nodes and Neumann edges.
-% 
+%
 % See also findboundary, showboundary3, setboundary3.
 %
 % Copyright (C) Long Chen. See COPYRIGHT.txt for details.
 
-N = max(elem(:));    
+N = max(elem(:));
 nv = size(elem,2);
 if nv == 4
     allFace = [elem(:,[2 3 4]);elem(:,[1 4 3]);elem(:,[1 2 4]);elem(:,[1 3 2])];
@@ -26,14 +26,14 @@ elseif nv == 8
 end
 if exist('bdFlag','var')
     Dirichlet = allFace((bdFlag(:) == 1),:);
-    isBdNode = false(N,1); 
+    isBdNode = false(N,1);
     isBdNode(Dirichlet(:)) = true;
     bdNode = find(isBdNode);
     bdFace = allFace((bdFlag(:) == 2) | (bdFlag(:) == 3),:);
 else
-    [face, i2, j] = myunique(sort(allFace,2)); %#ok<*ASGLU>
+    [face, i2, j] = unique(sort(allFace,2)); %#ok<*ASGLU>
     NT = size(elem,1);
-    i1(j(nf*NT:-1:1)) = nf*NT:-1:1; 
+    i1(j(nf*NT:-1:1)) = nf*NT:-1:1;
     i1 = i1';
     bdFace = allFace(i1(i1 == i2),:);
     isBdNode(bdFace) = true;

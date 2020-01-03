@@ -34,7 +34,7 @@ function T = auxstructure(elem)
 % Copyright (C) Long Chen. See COPYRIGHT.txt for details. 
 
 totalEdge = uint32(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
-[edge,i2,j] = myunique(totalEdge);
+[edge,i2,j] = unique(totalEdge);
 NT = size(elem,1);
 elem2edge = uint32(reshape(j,NT,3));
 i1(j(3*NT:-1:1)) = 3*NT:-1:1; 

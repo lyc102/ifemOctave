@@ -7,22 +7,22 @@ function [elem2dof,elem2edge,edge,bdDof,freeDof] = dofP3(elem)
 %
 %  The global indices of the dof is organized  according to the order of
 %  nodes, edges and elements. To be consistent, the dof on an edge depends
-%  on the orientation of edge only. 
+%  on the orientation of edge only.
 %
 %  See also dofP2, dof3P3.
-%  
+%
 %  Documentation: <a href="matlab:ifem PoissonP3femrate">Cubic Element
 %  for Poisson Equation in 2D</a>
 %
-%  Created by Jie Zhou. M-lint by Long Chen. 
+%  Created by Jie Zhou. M-lint by Long Chen.
 %
-% Copyright (C) Long Chen. See COPYRIGHT.txt for details. 
+% Copyright (C) Long Chen. See COPYRIGHT.txt for details.
 
-N = max(max(elem)); NT = size(elem,1);  
+N = max(max(elem)); NT = size(elem,1);
 
 %% Data structure
 totalEdge = uint32(sort([elem(:,[2,3]); elem(:,[3,1]); elem(:,[1,2])],2));
-[edge, i2, j] = myunique(totalEdge);
+[edge, i2, j] = unique(totalEdge);
 NE = size(edge,1);
 elem2edge = reshape(j,NT,3);
 
@@ -54,11 +54,11 @@ elem2dof(~idx0,9) = N + 2*(elem2edge(~idx0,3))-1;
 elem2dof(:,10) = (N+2*NE+1:N+2*NE+NT)';
 
 %% Boundary dof
-i1(j(3*NT:-1:1)) = 3*NT:-1:1; 
+i1(j(3*NT:-1:1)) = 3*NT:-1:1;
 i1 = i1';
 bdEdgeIdx = (i1 == i2);
 isBdDof = false(N+2*NE+NT,1);
-isBdDof(edge(bdEdgeIdx,:)) = true;   % boundary node 
+isBdDof(edge(bdEdgeIdx,:)) = true;   % boundary node
 idx = find(bdEdgeIdx);
 isBdDof(N+2*idx) = true;      % two dof on boundary edges
 isBdDof(N+2*idx-1) = true;
